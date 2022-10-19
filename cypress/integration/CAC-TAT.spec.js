@@ -68,7 +68,24 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         cy.get('.success').should('be.visible')
     })
 
-    it.only('Acessar a página de politica e privacidade', function(){
+    it('Acessar a página de politica e privacidade', function(){
         cy.contains('a', 'Política de Privacidade').click().should('have.text', 'Política de Privacidade')
     })
+
+    it('seleciona um produto (YouTube) por seu texto', function(){
+        cy.get('#product')
+          .select('YouTube')
+          .should('have.value', 'youtube')
+    })
+
+    it('seleciona um produto (youTube) por seu value', function(){
+        cy.get('#product').select('cursos').should('have.value', 'cursos')
+    })
+
+    it('seleciona um produto (YouTube) por seu indice', function(){
+        cy.get('#product').select(1).should('have.value', 'blog')
+    })
+
+
+    
   })

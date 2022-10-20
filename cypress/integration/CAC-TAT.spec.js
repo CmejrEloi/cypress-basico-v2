@@ -40,11 +40,11 @@ describe('Central de Atendimento ao Cliente TAT', function() {
             .should('have.value', '')
     })
 
-    it('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', function(){
+    it.only('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', function(){
         cy.get('#firstName').type('Cláudio')
         cy.get('#lastName').type('Manuel de Eloi Junior')
         cy.get('#email').type('claudio.eloi@ndd.com.br')
-        cy.get('#phone-checkbox').click()
+        cy.get('#phone-checkbox').check()
         cy.get('#open-text-area').type('Teste',{delay: 0})
         cy.get('button[type="submit"]').click()
         cy.get('.error').should('be.visible')
@@ -86,17 +86,23 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         cy.get('#product').select(1).should('have.value', 'blog')
     })
 
+    //Marcado radio button
     it('marca o tipo de atendimento "Feedback"', function(){
         cy.get('input[type="radio"][value="feedback"]').check().should('have.value', 'feedback')
     })
 
-    it.only('marca cada tipo de atendimento', function(){
-        cy.get('input[type="radio"]')
-        .should('have.length', 3)
-        .each(function($radio){
+    it('marca cada tipo de atendimento', function(){
+        cy.get('input[type="radio"]').should('have.length', 3).each(function($radio){
             cy.wrap($radio).check()
             cy.wrap($radio).should('be.checked')
         })
     })
     
+    //Marcando e desmarcando checkbox
+    it('marca ambos checkboxes, depois desmarca o último', function(){
+        cy.get('input[type="checkbox"]').check() //marca todos
+        .should('be.checked') // verifica se ambos estão marcados
+        .last().uncheck()//desmarca o ultimo
+        .should('not.be.checked') // verifica se está desmarcado
+    })
   })

@@ -24,14 +24,19 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         cy.get('.success').should('be.visible')
     })
 
-    it('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', function(){
-        cy.get('#firstName').type('Cláudio')
-        cy.get('#lastName').type('Manuel de Eloi Junior')
-        cy.get('#email').type('claudio.eloi@ndd,com.br')
-        cy.get('#phone').type('99345088')
-        cy.get('#open-text-area').type('Teste',{delay: 0})
-        cy.get('button[type="submit"]').click()
-        cy.get('.error').should('be.visible')
+    Cypress._.times(3, function(){
+        it.only('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', function(){
+            cy.get('#firstName').type('Cláudio')
+            cy.get('#lastName').type('Manuel de Eloi Junior')
+            cy.get('#email').type('claudio.eloi@ndd,com.br')
+            cy.get('#phone').type('99345088')
+            cy.get('#open-text-area').type('Teste',{delay: 0})
+            cy.clock() // congela o relógio do navegador
+            cy.get('button[type="submit"]').click()
+            cy.get('.error').should('be.visible')
+            cy.tick(3000) // avança o relógio três segundos (em milissegundos). Avanço este tempo para não perdê-lo esperando.
+            cy.get('.error').should('be.not.visible')
+        })
     })
 
     it('Validar campo telefone contendo apenas numero, caso contrario continua vazio', function(){
@@ -46,8 +51,11 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         cy.get('#email').type('claudio.eloi@ndd.com.br')
         cy.get('#phone-checkbox').check()
         cy.get('#open-text-area').type('Teste',{delay: 0})
+        cy.clock() // congela o relógio do navegador
         cy.get('button[type="submit"]').click()
         cy.get('.error').should('be.visible')
+        cy.tick(3000) // avança o relógio três segundos (em milissegundos). Avanço este tempo para não perdê-lo esperando.
+        cy.get('.error').should('be.not.visible')
     })
 
     it('preenche e limpa os campos nome, sobrenome, email e telefone', function(){
@@ -59,13 +67,19 @@ describe('Central de Atendimento ao Cliente TAT', function() {
     })
 
     it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', function(){
+        cy.clock() // congela o relógio do navegador
         cy.get('button[type="submit"]').click()
         cy.get('.error').should('be.visible')
+        cy.tick(3000) // avança o relógio três segundos (em milissegundos). Avanço este tempo para não perdê-lo esperando.
+        cy.get('.error').should('be.not.visible')
     })
 
     it('envia o formuário com sucesso usando um comando customizado', function(){
         cy.fillMandatoryFieldsAndSubmit()
+        cy.clock() // congela o relógio do navegador
         cy.get('.success').should('be.visible')
+        cy.tick(3000) // avança o relógio três segundos (em milissegundos). Avanço este tempo para não perdê-lo esperando.
+        cy.get('.error').should('be.not.visible')
     })
 
     it('seleciona um produto (YouTube) por seu texto', function(){

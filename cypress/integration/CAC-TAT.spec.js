@@ -70,7 +70,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
     it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', function(){
         cy.clock() // congela o relógio do navegador
         cy.get('button[type="submit"]').click()
-        cy.get('.error').should('be.not.visible')
+        cy.get('.error').should('be.visible')
         cy.tick(3000) // avança o relógio três segundos (em milissegundos). Avanço este tempo para não perdê-lo esperando.
         cy.get('.error').should('be.not.visible')
     })

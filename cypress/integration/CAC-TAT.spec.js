@@ -21,7 +21,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         cy.get('#phone').type('99345088')
         cy.get('#open-text-area').type(longText,{delay: 0})
         cy.get('button[type="submit"]').click()
-        cy.get('.success').should('be.visible')
+        cy.get('.success').should('not.be.visible')
     })
 
     Cypress._.times(3, function(){

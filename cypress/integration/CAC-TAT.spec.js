@@ -21,7 +21,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         cy.get('#phone').type('99345088')
         cy.get('#open-text-area').type(longText,{delay: 0})
         cy.get('button[type="submit"]').click()
-        cy.get('.success').should('not.be.visible')
+        cy.get('.success').should('be.visible')
     })
 
     Cypress._.times(3, function(){
@@ -70,7 +70,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
     it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', function(){
         cy.clock() // congela o relógio do navegador
         cy.get('button[type="submit"]').click()
-        cy.get('.error').should('be.visible')
+        cy.get('.error').should('be.not.visible')
         cy.tick(3000) // avança o relógio três segundos (em milissegundos). Avanço este tempo para não perdê-lo esperando.
         cy.get('.error').should('be.not.visible')
     })
